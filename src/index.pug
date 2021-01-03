@@ -7,7 +7,7 @@ html( lang=content.lang )#index
 			
 			div.card
 				h1 Amazon universal product link generator
-				p This tool creates a link that guesses the right amazon based on the user's location.
+				p This tool creates a link that guesses the right amazon based on the user's location. Free and open source.
 
 				label( for='sourceurl' ) Amazon link (any marketplace)
 				input( type='text' )#sourceurl
@@ -26,6 +26,6 @@ html( lang=content.lang )#index
 						li blacklist: tlds to not show on the 'select other amazon' list, comma separated list of tlds
 						li overrides: manual overrides for sending countries to tlds, , comma separated list of COUNTRYCODE:TLD pairs
 						li s: silent flag, will send the user without countdown and visual info, string ( true )
-
+					a( href='https://github.com/actuallymentor/universal-amazon-product-link' ) Click here for open source code
 		
 		include pug/_footer.pug
