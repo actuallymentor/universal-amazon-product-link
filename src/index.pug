@@ -1,9 +1,31 @@
 - const page = { title: 'Home', desc: 'Home page', published: '2017-01-01', url: '/', featuredimg: '/image.jpg' }
 doctype html
-html( lang=content.lang )
+html( lang=content.lang )#index
 	include pug/_header.pug
 	body
 		main
-			h1 Hello sir
-			h2 How are you
+			
+			div.card
+				h1 Amazon universal product link generator
+				p This tool creates a link that guesses the right amazon based on the user's location.
+
+				label( for='sourceurl' ) Amazon link (any marketplace)
+				input( type='text' )#sourceurl
+
+				label( for='universalurl' ) Universal URL:
+				input( type='text' )#universalurl
+
+				a( href='#' )#advanced Advanced usage...
+				div#advancedusage.hide
+					p The generated URL works through the query parameters.
+					p The available parameters are:
+					ul
+						li id: amazon product id, string
+						li counter: redirect delay, number
+						li continent: what continents to send to which tld, comma separated list of COUNTRYCODE:TLD pairs
+						li blacklist: tlds to not show on the 'select other amazon' list, comma separated list of tlds
+						li overrides: manual overrides for sending countries to tlds, , comma separated list of COUNTRYCODE:TLD pairs
+						li s: silent flag, will send the user without countdown and visual info, string ( true )
+
+		
 		include pug/_footer.pug

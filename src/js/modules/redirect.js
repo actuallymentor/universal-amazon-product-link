@@ -5,7 +5,8 @@ import { generateUniversalUrl, getQuery } from './url'
 
 export const handleRedirect = async f => {
 
-	let counter = 5
+	const queryCounter = getQuery( 'counter' )
+	let counter = queryCounter ? Number( queryCounter ) : 5
 	let paused = false
 	
 	if( !q( '#product' ) ) return log( `Not product page, skipping redirect handling` )
@@ -86,12 +87,19 @@ const showAllAmazons = f => {
 	title.classList.add( 'hide' )
 	countdown.classList.add( 'hide' )
 
+	// Data
 	const id = getQuery( 'id' )
-	const tlds = [ '.com', '.co.uk', '.ca', '.de', '.fr', '.it', '.es', '.nl', '.co.jp', '.in', '.com.au', '.sg', '.ae', '.com.tr', '.com.mx', '.com.br' ]
+	let blacklistedTlds = getQuery( 'blacklist' )
+	let tlds = [ '.com', '.co.uk', '.ca', '.de', '.fr', '.it', '.es', '.nl', '.co.jp', '.in', '.com.au', '.sg', '.ae', '.com.tr', '.com.mx', '.com.br' ]
 	const tldHolder = q( '#alltlds' )
 
-	for (var i = tlds.length - 1; i >= 0; i--) {
+	// Parse blacklist of tlds
+	if( blacklistedTlds ) {
+		blacklistedTlds = blacklistedTlds.split( ',' )
+		tlds = tlds.filter( tld => !blacklistedTlds.includes( tld ) )
+	}
 
+	for (var i = tlds.length - 1; i >= 0; i--) {
 		tldHolder.innerHTML += `<a href='https://www.amazon${ tlds[i] }/dp/${id}'>amazon${ tlds[i] }</a>`
 	}
 

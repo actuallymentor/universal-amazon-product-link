@@ -1,6 +1,8 @@
 import { log } from './helpers'
 import { getGeo, getGeoByIp } from 'geoplugin'
 import { countries } from 'countries-list'
+import { getQuery } from './url'
+
 
 // ///////////////////////////////
 // All-in-one get TLD function
@@ -129,13 +131,29 @@ export const countryToTld = ( continentCode, countryCode ) => {
 
 	// Guess based on continent
 	// Based on: https://en.wikipedia.org/wiki/List_of_sovereign_states_and_dependent_territories_by_continent_(data_file)
-	if( continentCode == 'AF' ) tld = '.co.uk'
-	if( continentCode == 'AS' ) tld = '.sg'
-	if( continentCode == 'EU' ) tld = '.de'
-	if( continentCode == 'NA' ) tld = '.com'
-	if( continentCode == 'SA' ) tld = '.com.mx'
-	if( continentCode == 'OC' ) tld = '.com.au'
-	if( continentCode == 'AN' ) tld = '.com'
+	let continentRules = getQuery( 'continent' )
+	if( continentRules ) {
+		continentRules = continentRules.split( ',' )
+		continentRules = continentRules.map( rule => {
+			const [ code, tld ] = rule.split( ':' )
+			return { code: code, tld: tld }
+		} ) 
+		log( `Continent rules: `, continentRules )
+
+		// Set tld based on rules
+		continentRules.map( rule => {
+			if( continentCode == rule.code ) tld = rule.tld
+		} )
+	}
+
+	// if( continentCode == 'AF' ) tld = '.co.uk'
+	// if( continentCode == 'AS' ) tld = '.sg'
+	// if( continentCode == 'EU' ) tld = '.de'
+	// if( continentCode == 'NA' ) tld = '.com'
+	// if( continentCode == 'SA' ) tld = '.com.mx'
+	// if( continentCode == 'OC' ) tld = '.com.au'
+	// if( continentCode == 'AN' ) tld = '.com'
+	// continent=AF:.co.uk,AS:.sg,EU:.de,NA:.com,SA:.com.mx,OC:.com.au,AN:.com
 
 	// Guess based on countries with amazon
 	if( countryCode == 'US' ) tld = '.com'
@@ -157,6 +175,22 @@ export const countryToTld = ( continentCode, countryCode ) => {
 
 	// Guess based on my country preferences
 	if( countryCode == 'LU' ) tld = '.de'
+
+	// Implement overrides
+	let overrideRules = getQuery( 'overrides' )
+	if( overrideRules ) {
+		overrideRules = overrideRules.split( ',' )
+		overrideRules = overrideRules.map( rule => {
+			const [ code, tld ] = rule.split( ':' )
+			return { code: code, tld: tld }
+		} ) 
+		log( `Override rules: `, overrideRules )
+
+		// Set tld based on rules
+		overrideRules.map( rule => {
+			if( countryCode == rule.code ) tld = rule.tld
+		} )
+	}
 
 	return tld
 	
