@@ -19,3 +19,6 @@ export const log = ( ...messages ) => {
 	}
 
 }
+
+// Timers
+export const wait = ( time, error=false ) => new Promise( ( res, rej ) => setTimeout( error ? rej : res, time ) )

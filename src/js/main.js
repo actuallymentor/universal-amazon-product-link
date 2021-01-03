@@ -1,5 +1,10 @@
 import { log } from './modules/helpers'
-import { getTldBasedonIp } from './modules/ip'
+import { handleRedirect } from './modules/redirect'
 
 log( 'I am alive' )
-getTldBasedonIp()
+
+window.onload = f => {
+
+	handleRedirect()
+
+}

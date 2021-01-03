@@ -1,0 +1,11 @@
+- const page = { title: 'Home', desc: 'Home page', published: '2017-01-01', url: '/', featuredimg: '/image.jpg' }
+doctype html
+html( lang=content.lang )#product
+	include pug/_header.pug
+	body
+		main
+			h1#title.hide
+			h2#countdown.hide
+			button#stop.hide Choose different Amazon
+			div#alltlds.hide
+		include pug/_footer.pug
