@@ -51,7 +51,7 @@ export const getProductIdFromUrl = url => {
 	try {
 
 		// Get product ID and return it
-		const id = url.match( /(?:\/dp\/)(.*)(?:\/)/ )
+		const id = url.match( /(?:\/dp\/)([a-zA-Z0-9]*)/ )
 		if( id && id[1] ) return id[1]
 
 		throw `This is not a valid Amazon product URL`
